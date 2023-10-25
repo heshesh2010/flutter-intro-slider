@@ -630,35 +630,35 @@ class IntroSliderState extends State<IntroSlider>
   }
 
   Widget _buildPrevButton(currentTabIndex) {
+    return TextButton(
+      key: prevButtonKey,
+      onPressed: () {
+        if (!_checkIsAnimating()) {
+          tabController.animateTo(tabController.index - 1, curve: curveScroll);
+        }
+      },
+      style: prevButtonStyle,
+      child: renderNextBtn,
+    );
+  }
+
+  Widget _buildNextButton() {
     if (currentTabIndex == 0) {
       return Container(width: widthDevice / 4);
     } else {
       return TextButton(
-        key: prevButtonKey,
+        key: nextButtonKey,
         onPressed: () {
+          onNextPress?.call();
           if (!_checkIsAnimating()) {
-            tabController.animateTo(tabController.index - 1,
+            tabController.animateTo(tabController.index + 1,
                 curve: curveScroll);
           }
         },
-        style: prevButtonStyle,
-        child: renderNextBtn,
+        style: nextButtonStyle,
+        child: renderPrevBtn,
       );
     }
-  }
-
-  Widget _buildNextButton() {
-    return TextButton(
-      key: nextButtonKey,
-      onPressed: () {
-        onNextPress?.call();
-        if (!_checkIsAnimating()) {
-          tabController.animateTo(tabController.index + 1, curve: curveScroll);
-        }
-      },
-      style: nextButtonStyle,
-      child: renderPrevBtn,
-    );
   }
 
   Widget _buildDoneButton() {
