@@ -642,7 +642,7 @@ class IntroSliderState extends State<IntroSlider>
           }
         },
         style: prevButtonStyle,
-        child: renderPrevBtn,
+        child: renderNextBtn,
       );
     }
   }
@@ -657,7 +657,7 @@ class IntroSliderState extends State<IntroSlider>
         }
       },
       style: nextButtonStyle,
-      child: renderNextBtn,
+      child: renderPrevBtn,
     );
   }
 
