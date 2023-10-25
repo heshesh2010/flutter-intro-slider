@@ -551,71 +551,66 @@ class IntroSliderState extends State<IntroSlider>
   }
 
   Widget _buildNavigationBar() {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Positioned(
-        top: navigationBarConfig.navPosition == NavPosition.top ? 0 : null,
-        bottom:
-            navigationBarConfig.navPosition == NavPosition.bottom ? 0 : null,
-        left: 0,
-        right: 0,
-        child: Container(
-          padding: navigationBarConfig.padding,
-          color: navigationBarConfig.backgroundColor,
-          child: Row(
-            children: <Widget>[
-              // Skip button
-              StreamBuilder<int>(
-                  stream: streamCurrentTabIndex.stream,
-                  builder: (context, snapshot) {
-                    int currentTabIndex = snapshot.data ?? 0;
-                    return Container(
-                      alignment: Alignment.center,
-                      width: widthDevice / 4,
-                      child: isShowSkipBtn
-                          ? _buildSkipButton(currentTabIndex)
-                          : (isShowPrevBtn
-                              ? _buildPrevButton(currentTabIndex)
-                              : const SizedBox.shrink()),
-                    );
-                  }),
+    return Positioned(
+      top: navigationBarConfig.navPosition == NavPosition.top ? 0 : null,
+      bottom: navigationBarConfig.navPosition == NavPosition.bottom ? 0 : null,
+      left: 0,
+      right: 0,
+      child: Container(
+        padding: navigationBarConfig.padding,
+        color: navigationBarConfig.backgroundColor,
+        child: Row(
+          children: <Widget>[
+            // Skip button
+            StreamBuilder<int>(
+                stream: streamCurrentTabIndex.stream,
+                builder: (context, snapshot) {
+                  int currentTabIndex = snapshot.data ?? 0;
+                  return Container(
+                    alignment: Alignment.center,
+                    width: widthDevice / 4,
+                    child: isShowSkipBtn
+                        ? _buildSkipButton(currentTabIndex)
+                        : (isShowPrevBtn
+                            ? _buildNextButton()
+                            : const SizedBox.shrink()),
+                  );
+                }),
 
-              // Indicator
-              Flexible(
-                child: isShowIndicator
-                    ? Stack(
-                        alignment: Alignment.center,
-                        children: <Widget>[
-                          _buildListIndicator(),
-                          typeIndicatorAnimation ==
-                                  TypeIndicatorAnimation.sliding
-                              ? _buildActiveIndicator()
-                              : const SizedBox.shrink()
-                        ],
-                      )
-                    : const SizedBox.shrink(),
-              ),
-
-              // Next, Done button
-              StreamBuilder<int>(
-                  stream: streamCurrentTabIndex.stream,
-                  builder: (context, snapshot) {
-                    int currentTabIndex = snapshot.data ?? 0;
-                    return Container(
+            // Indicator
+            Flexible(
+              child: isShowIndicator
+                  ? Stack(
                       alignment: Alignment.center,
-                      width: widthDevice / 4,
-                      height: 50,
-                      child: currentTabIndex + 1 == lengthSlide
-                          ? isShowDoneBtn
-                              ? _buildDoneButton()
-                              : const SizedBox.shrink()
-                          : isShowNextBtn
-                              ? _buildNextButton()
-                              : const SizedBox.shrink(),
-                    );
-                  }),
-            ],
-          ),
+                      children: <Widget>[
+                        _buildListIndicator(),
+                        typeIndicatorAnimation == TypeIndicatorAnimation.sliding
+                            ? _buildActiveIndicator()
+                            : const SizedBox.shrink()
+                      ],
+                    )
+                  : const SizedBox.shrink(),
+            ),
+
+            // Next, Done button
+            StreamBuilder<int>(
+                stream: streamCurrentTabIndex.stream,
+                builder: (context, snapshot) {
+                  int currentTabIndex = snapshot.data ?? 0;
+                  return Container(
+                    alignment: Alignment.center,
+                    width: widthDevice / 4,
+                    height: 50,
+                    child: currentTabIndex + 1 == lengthSlide
+                        ? isShowDoneBtn
+                            ? _buildDoneButton()
+                            : const SizedBox.shrink()
+                        : isShowNextBtn
+                            ? _buildPrevButton(currentTabIndex)
+                            : const SizedBox.shrink(),
+                  );
+                }),
+          ],
         ),
       ),
     );
