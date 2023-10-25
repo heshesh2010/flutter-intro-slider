@@ -572,7 +572,7 @@ class IntroSliderState extends State<IntroSlider>
                     child: isShowSkipBtn
                         ? _buildSkipButton(currentTabIndex)
                         : (isShowPrevBtn
-                            ? _buildNextButton()
+                            ? _buildPrevButton(currentTabIndex)
                             : const SizedBox.shrink()),
                   );
                 }),
@@ -606,7 +606,7 @@ class IntroSliderState extends State<IntroSlider>
                             ? _buildDoneButton()
                             : const SizedBox.shrink()
                         : isShowNextBtn
-                            ? _buildPrevButton(currentTabIndex)
+                            ? _buildNextButton()
                             : const SizedBox.shrink(),
                   );
                 }),
@@ -630,32 +630,18 @@ class IntroSliderState extends State<IntroSlider>
   }
 
   Widget _buildPrevButton(currentTabIndex) {
-    return TextButton(
-      key: prevButtonKey,
-      onPressed: () {
-        if (!_checkIsAnimating()) {
-          tabController.animateTo(tabController.index - 1, curve: curveScroll);
-        }
-      },
-      style: prevButtonStyle,
-      child: renderNextBtn,
-    );
-  }
-
-  Widget _buildNextButton() {
     if (currentTabIndex == 0) {
       return Container(width: widthDevice / 4);
     } else {
       return TextButton(
-        key: nextButtonKey,
+        key: prevButtonKey,
         onPressed: () {
-          onNextPress?.call();
           if (!_checkIsAnimating()) {
-            tabController.animateTo(tabController.index + 1,
+            tabController.animateTo(tabController.index - 1,
                 curve: curveScroll);
           }
         },
-        style: nextButtonStyle,
+        style: prevButtonStyle,
         child: renderPrevBtn,
       );
     }
@@ -670,6 +656,20 @@ class IntroSliderState extends State<IntroSlider>
     );
   }
 
+  Widget _buildNextButton() {
+    return TextButton(
+      key: nextButtonKey,
+      onPressed: () {
+        onNextPress?.call();
+        if (!_checkIsAnimating()) {
+          tabController.animateTo(tabController.index + 1, curve: curveScroll);
+        }
+      },
+      style: nextButtonStyle,
+      child: renderNextBtn,
+    );
+  }
+
   Widget _buildActiveIndicator() {
     return StreamBuilder<PairIndicatorMargin>(
       stream: streamMarginIndicatorFocusing.stream,
@@ -678,14 +678,8 @@ class IntroSliderState extends State<IntroSlider>
         if (pairIndicatorMargin == null) return const SizedBox.shrink();
         return Container(
           margin: EdgeInsets.only(
-            left: _checkIsRTLLanguage(
-                    Localizations.localeOf(context).languageCode)
-                ? pairIndicatorMargin.right
-                : pairIndicatorMargin.left,
-            right: _checkIsRTLLanguage(
-                    Localizations.localeOf(context).languageCode)
-                ? pairIndicatorMargin.left
-                : pairIndicatorMargin.right,
+            left: pairIndicatorMargin.left,
+            right: pairIndicatorMargin.right,
           ),
           child: activeIndicatorWidget ??
               indicatorWidget ??

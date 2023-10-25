@@ -14,6 +14,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      supportedLocales: [Locale('ar', 'SA'), Locale('en', 'US')],
+      locale: Locale('ar', 'SA'),
       home: type == 0
           ? IntroScreenDefault()
           : type == 1

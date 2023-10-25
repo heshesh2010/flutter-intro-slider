@@ -65,7 +65,8 @@ class IntroScreenCustomConfigState extends State<IntroScreenCustomConfig> {
           fontWeight: FontWeight.bold,
           fontFamily: 'RobotoMono',
         ),
-        description: "Ye indulgence unreserved connection alteration appearance",
+        description:
+            "Ye indulgence unreserved connection alteration appearance",
         styleDescription: TextStyle(
           color: Color(0xff7FFFD4),
           fontSize: 20.0,
@@ -116,12 +117,12 @@ class IntroScreenCustomConfigState extends State<IntroScreenCustomConfig> {
     );
   }
 
-  Widget renderDoneBtn() {
-    return const Icon(
-      Icons.done,
-      size: 25,
-    );
-  }
+  // Widget renderDoneBtn() {
+  //   return const Icon(
+  //     Icons.done,
+  //     size: 25,
+  //   );
+  // }
 
   Widget renderSkipBtn() {
     return const Icon(
@@ -140,57 +141,72 @@ class IntroScreenCustomConfigState extends State<IntroScreenCustomConfig> {
 
   @override
   Widget build(BuildContext context) {
-    return IntroSlider(
-      key: UniqueKey(),
-      // Content config
-      listContentConfig: listContentConfig,
-      backgroundColorAllTabs: Colors.grey,
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: IntroSlider(
+        key: UniqueKey(),
+        // Content config
+        listContentConfig: listContentConfig,
+        backgroundColorAllTabs: Colors.grey,
 
-      // Skip button
-      renderSkipBtn: renderSkipBtn(),
-      skipButtonStyle: myButtonStyle(),
+        // // Skip button
+        // renderSkipBtn: renderSkipBtn(),
+        // skipButtonStyle: myButtonStyle(),
 
-      // Next button
-      renderNextBtn: renderNextBtn(),
-      onNextPress: onNextPress,
-      nextButtonStyle: myButtonStyle(),
-
-      // Done button
-      renderDoneBtn: renderDoneBtn(),
-      onDonePress: onDonePress,
-      doneButtonStyle: myButtonStyle(),
-
-      // Indicator
-      indicatorConfig: IndicatorConfig(
-        sizeIndicator: sizeIndicator,
-        indicatorWidget: Container(
-          width: sizeIndicator,
-          height: 10,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: inactiveColor),
+        renderNextBtn: const Icon(
+          Icons.arrow_forward_ios,
+          size: 20,
         ),
-        activeIndicatorWidget: Container(
-          width: sizeIndicator,
-          height: 10,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: activeColor),
+        renderPrevBtn: const Icon(
+          Icons.arrow_back_ios,
+          size: 20,
         ),
-        spaceBetweenIndicator: 10,
-        typeIndicatorAnimation: TypeIndicatorAnimation.sliding,
+
+        prevButtonStyle: myButtonStyle(),
+        // Next button
+        onNextPress: onNextPress,
+        nextButtonStyle: myButtonStyle(),
+
+        // Done button
+        // renderDoneBtn: renderDoneBtn(),
+        // onDonePress: onDonePress,
+        // doneButtonStyle: myButtonStyle(),
+
+        // Indicator
+        indicatorConfig: IndicatorConfig(
+          sizeIndicator: sizeIndicator,
+          indicatorWidget: Container(
+            width: sizeIndicator,
+            height: 10,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4), color: inactiveColor),
+          ),
+          activeIndicatorWidget: Container(
+            width: sizeIndicator,
+            height: 10,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4), color: activeColor),
+          ),
+          spaceBetweenIndicator: 10,
+          typeIndicatorAnimation: TypeIndicatorAnimation.sliding,
+        ),
+        isShowSkipBtn: false,
+        isShowDoneBtn: false,
+        // Navigation bar
+        navigationBarConfig: NavigationBarConfig(
+          navPosition: NavPosition.bottom,
+          padding: EdgeInsets.only(
+            top: MediaQuery.of(context).viewPadding.top > 0 ? 20 : 10,
+            bottom: MediaQuery.of(context).viewPadding.bottom > 0 ? 20 : 10,
+          ),
+          backgroundColor: Colors.black.withOpacity(0.5),
+        ),
+
+        // Scroll behavior
+        isAutoScroll: true,
+        isLoopAutoScroll: true,
+        curveScroll: Curves.bounceIn,
       ),
-
-      // Navigation bar
-      navigationBarConfig: NavigationBarConfig(
-        navPosition: NavPosition.bottom,
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).viewPadding.top > 0 ? 20 : 10,
-          bottom: MediaQuery.of(context).viewPadding.bottom > 0 ? 20 : 10,
-        ),
-        backgroundColor: Colors.black.withOpacity(0.5),
-      ),
-
-      // Scroll behavior
-      isAutoScroll: true,
-      isLoopAutoScroll: true,
-      curveScroll: Curves.bounceIn,
     );
   }
 }
